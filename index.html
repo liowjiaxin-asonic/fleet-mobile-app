@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>A-Sonic Fleet e-PR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Custom scrollbar for mobile */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Active state for buttons */
+        .btn-active:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .status-badge {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col h-screen overflow-hidden">
+
+    <!-- App Header -->
+    <header class="bg-blue-900 text-white px-4 pt-10 pb-4 shadow-md shrink-0">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight">A-Sonic Logistics</h1>
+                <p class="text-xs text-blue-200">Fleet Manager Mobile v1.1</p>
+            </div>
+            <div class="flex gap-4">
+                <button class="relative" onclick="showSection('dashboard')">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                        </path>
+                    </svg>
+                    <span
+                        class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold border-2 border-blue-900">1</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Scrollable Content -->
+    <main id="main-content" class="flex-grow overflow-y-auto pb-32">
+
+        <!-- DASHBOARD SECTION -->
+        <section id="dashboard" class="p-4 space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-bold text-gray-800 uppercase tracking-tight">My e-PRs</h2>
+                <div class="flex gap-2">
+                    <button
+                        class="bg-white border rounded-lg px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm">All
+                        Types</button>
+                    <button
+                        class="bg-white border rounded-lg px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm">Filter</button>
+                </div>
+            </div>
+
+            <!-- Pending Approval (LIST-01) -->
+            <div class="bg-white border-l-4 border-l-yellow-500 rounded-xl shadow-sm p-4 space-y-2">
+                <div class="flex justify-between items-start">
+                    <span
+                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0045</span>
+                    <span
+                        class="bg-yellow-100 text-yellow-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Pending
+                        OM Approval</span>
+                </div>
+                <h3 class="font-bold text-gray-900">SJB 1234 A — Hino 700</h3>
+                <p class="text-xs text-gray-500">Corrective (Accident) • Est: $2,800.00</p>
+                <div class="pt-2 flex justify-end">
+                    <button class="text-blue-600 text-xs font-bold uppercase tracking-wider">Recall Draft
+                        &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Urgent Notification Mock (LIST-01) -->
+            <div class="bg-white border-l-4 border-l-red-500 rounded-xl shadow-sm p-4 space-y-2 ring-1 ring-red-100">
+                <div class="flex justify-between items-start">
+                    <span
+                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0042</span>
+                    <div class="flex items-center gap-1">
+                        <span class="bg-red-500 text-white text-[8px] px-1 rounded animate-pulse">URGENT</span>
+                        <span
+                            class="bg-red-100 text-red-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Pending
+                            OM Approval</span>
+                    </div>
+                </div>
+                <h3 class="font-bold text-gray-900">SHA 8821 X — Scania P360</h3>
+                <p class="text-xs text-gray-500">Corrective (Urgent Repair) • Est: $2,450.00</p>
+                <div class="pt-2 flex justify-between items-center">
+                    <span class="text-[10px] text-red-500 font-bold">Priority Push Sent</span>
+                    <button class="text-blue-600 text-xs font-bold uppercase tracking-wider">Track Status
+                        &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Standard List Items -->
+            <div class="bg-white border rounded-xl shadow-sm p-4 space-y-2">
+                <div class="flex justify-between items-start">
+                    <span
+                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0038</span>
+                    <span
+                        class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Approved
+                        (Self)</span>
+                </div>
+                <h3 class="font-bold text-gray-900">EQ-122 — Forklift L2</h3>
+                <p class="text-xs text-gray-500">Preventive Maintenance • Est: $450.00</p>
+            </div>
+
+            <div class="bg-white border rounded-xl shadow-sm p-4 space-y-2">
+                <div class="flex justify-between items-start">
+                    <span
+                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0031</span>
+                    <span
+                        class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Draft</span>
+                </div>
+                <h3 class="font-bold text-gray-900">SJB 4412 M — Hino 700</h3>
+                <p class="text-xs text-gray-500 italic">General Breakdown • Last saved 2m ago</p>
+            </div>
+        </section>
+
+        <!-- CREATE E-PR SECTION -->
+        <section id="create" class="hidden p-4 space-y-6">
+            <h2 class="text-xl font-bold text-gray-800">New Requisition</h2>
+
+            <!-- Maintenance Type Selector -->
+            <div class="space-y-3">
+                <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Maintenance Type</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="selectType(this, 'PM')"
+                        class="type-btn border-2 border-gray-100 bg-white p-2 rounded-xl flex flex-col items-center gap-1 text-center transition-all">
+                        <span class="text-xl">📅</span>
+                        <span class="text-[9px] font-bold leading-tight">Preventive</span>
+                    </button>
+                    <button onclick="selectType(this, 'Urgent')"
+                        class="type-btn border-2 border-gray-100 bg-white p-2 rounded-xl flex flex-col items-center gap-1 text-center transition-all">
+                        <span class="text-xl">🚨</span>
+                        <span class="text-[9px] font-bold leading-tight uppercase text-red-600">Urgent</span>
+                    </button>
+                    <button onclick="selectType(this, 'Accident')"
+                        class="type-btn border-2 border-gray-100 bg-white p-2 rounded-xl flex flex-col items-center gap-1 text-center transition-all">
+                        <span class="text-xl">💥</span>
+                        <span class="text-[9px] font-bold leading-tight">Accident</span>
+                    </button>
+                    <button onclick="selectType(this, 'Breakdown')"
+                        class="type-btn border-2 border-gray-100 bg-white p-2 rounded-xl flex flex-col items-center gap-1 text-center transition-all">
+                        <span class="text-xl">🔧</span>
+                        <span class="text-[9px] font-bold leading-tight">Breakdown</span>
+                    </button>
+                    <button onclick="selectType(this, 'Equipment')"
+                        class="type-btn border-2 border-gray-100 bg-white p-2 rounded-xl flex flex-col items-center gap-1 text-center transition-all">
+                        <span class="text-xl">⚙️</span>
+                        <span class="text-[9px] font-bold leading-tight">Equipment</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="space-y-4">
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Asset / Vehicle</label>
+                    <div class="relative">
+                        <input type="text" placeholder="Search Plate or Fleet ID..."
+                            class="w-full p-4 bg-white border rounded-xl shadow-inner outline-blue-500">
+                        <svg class="w-5 h-5 absolute right-4 top-4 text-gray-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- CONDITIONAL: Preventive Maintenance -->
+                <div id="fields-PM" class="hidden space-y-4 p-4 bg-blue-50 rounded-2xl border border-blue-100">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-blue-600 uppercase tracking-wider">Curr.
+                                Odometer</label>
+                            <input type="number" placeholder="KM" class="w-full p-3 bg-white border rounded-lg text-sm">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-blue-600 uppercase tracking-wider">Next Due</label>
+                            <input type="number" placeholder="KM" class="w-full p-3 bg-white border rounded-lg text-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONDITIONAL: Accident -->
+                <div id="fields-Accident"
+                    class="hidden space-y-4 p-4 bg-orange-50 rounded-2xl border border-orange-100">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold text-orange-600 uppercase tracking-wider">Incident Report
+                            #</label>
+                        <input type="text" placeholder="INC-XXXX" class="w-full p-3 bg-white border rounded-lg text-sm">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-orange-700">Insurance Claim Required?</label>
+                        <input type="checkbox" class="w-5 h-5 text-orange-600 rounded">
+                    </div>
+                </div>
+
+                <!-- CONDITIONAL: Urgent Repair -->
+                <div id="fields-Urgent" class="hidden space-y-4 p-4 bg-red-50 rounded-2xl border border-red-100">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold text-red-600 uppercase tracking-wider">Breakdown
+                            Location</label>
+                        <div class="flex gap-2">
+                            <input type="text" placeholder="GPS or Manual Address"
+                                class="flex-grow p-3 bg-white border rounded-lg text-sm">
+                            <button class="bg-red-600 text-white p-3 rounded-lg"><svg class="w-4 h-4" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONDITIONAL: Equipment -->
+                <div id="fields-Equipment"
+                    class="hidden space-y-4 p-4 bg-purple-50 rounded-2xl border border-purple-100">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold text-purple-600 uppercase tracking-wider">Serial
+                            Number</label>
+                        <input type="text" placeholder="S/N" class="w-full p-3 bg-white border rounded-lg text-sm">
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Workshop / Vendor</label>
+                    <select class="w-full p-4 bg-white border rounded-xl shadow-inner outline-blue-500 appearance-none">
+                        <option>Select Preferred Workshop...</option>
+                        <option>Direct Tyres Pte Ltd</option>
+                        <option>Goldbell Engineering</option>
+                        <option>ComfortDelGro Eng</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Estimated Cost (SGD)</label>
+                    <input type="number" id="costInput" oninput="handleCostChange()" placeholder="0.00"
+                        class="w-full p-4 bg-white border rounded-xl shadow-inner font-bold text-xl text-blue-900 outline-blue-500">
+
+                    <!-- LIVE APPROVAL TIER INDICATOR -->
+                    <div id="tierIndicator"
+                        class="mt-2 p-3 rounded-lg border transition-all flex items-center gap-3 bg-gray-50 border-gray-200">
+                        <div id="tierIcon"
+                            class="w-6 h-6 shrink-0 flex items-center justify-center rounded-full bg-gray-400 text-white text-[10px] font-bold">
+                            ?</div>
+                        <p id="tierText" class="text-[11px] leading-tight font-semibold italic text-gray-500">Enter an
+                            amount to see the approval routing (Threshold: $500.00).</p>
+                    </div>
+                </div>
+
+                <div class="space-y-1">
+                    <div class="flex justify-between">
+                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Scope of Work</label>
+                        <span class="text-[10px] text-blue-600 font-bold uppercase cursor-pointer">Use Template</span>
+                    </div>
+                    <textarea rows="3" placeholder="Describe the required repairs..."
+                        class="w-full p-4 bg-white border rounded-xl shadow-inner outline-blue-500"></textarea>
+                </div>
+
+                <!-- Camera/Photos (PHOTO-01) -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Photos & Quotations
+                            (0/10)</label>
+                        <span id="quotation-warning"
+                            class="hidden text-[9px] text-red-500 font-bold uppercase">Quotation Mandatory >$500</span>
+                    </div>
+                    <div class="flex gap-2 overflow-x-auto pb-2">
+                        <button onclick="handlePhotoCapture()"
+                            class="w-20 h-20 bg-gray-200 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-gray-400 text-gray-500 shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <span class="text-[8px] font-bold mt-1 uppercase">Capture</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between p-4 bg-gray-100 rounded-xl mt-2">
+                    <div class="flex flex-col">
+                        <span class="text-sm font-bold">Urgent Flag</span>
+                        <span class="text-[10px] text-gray-500 italic">Triggers Priority OM Notification</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="urgentToggle" class="sr-only peer">
+                        <div
+                            class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600">
+                        </div>
+                    </label>
+                </div>
+
+                <button onclick="submitReview()"
+                    class="w-full bg-blue-600 text-white p-5 rounded-2xl font-bold shadow-lg btn-active mt-6">
+                    REVIEW & SUBMIT
+                </button>
+            </div>
+        </section>
+
+        <!-- REVIEW SECTION (New) -->
+        <section id="review" class="hidden p-4 space-y-6">
+            <h2 class="text-xl font-bold text-gray-800">Confirm Requisition</h2>
+            <div class="bg-white border rounded-2xl p-6 space-y-4 shadow-sm">
+                <div class="border-b pb-4">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase">Approval Path</p>
+                    <p id="reviewApproval" class="text-sm font-bold text-green-600">Self-Approve (Tier 1)</p>
+                </div>
+                <!-- Summary Details -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase">Asset</p>
+                        <p id="reviewAsset" class="text-sm font-semibold">SJB 1234 A</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase">Est. Cost</p>
+                        <p id="reviewCost" class="text-sm font-semibold">$350.00</p>
+                    </div>
+                </div>
+                <div class="pt-4 flex flex-col gap-3">
+                    <button onclick="confirmSubmit()"
+                        class="w-full bg-green-600 text-white p-4 rounded-xl font-bold shadow-md">Confirm
+                        Submission</button>
+                    <button onclick="showSection('create')"
+                        class="w-full bg-gray-100 text-gray-600 p-4 rounded-xl font-bold">Back to Edit</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation (60% Reach Rule) -->
+    <nav
+        class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-3 pb-8 flex justify-between items-center z-50 shadow-[0_-5px_15px_-3px_rgba(0,0,0,0.05)]">
+        <button onclick="showSection('dashboard')" class="flex flex-col items-center gap-1 group">
+            <div id="nav-dash-icon" class="p-2 rounded-xl transition-colors bg-blue-50 text-blue-600">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                    </path>
+                </svg>
+            </div>
+            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-tighter">Dashboard</span>
+        </button>
+
+        <!-- Main FAB -->
+        <button onclick="showSection('create')" class="relative -top-10 group">
+            <div id="nav-create-icon"
+                class="bg-blue-600 text-white p-5 rounded-3xl shadow-2xl shadow-blue-400 border-4 border-white transition-all transform active:scale-90 active:rotate-45">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+            </div>
+            <div
+                class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-blue-600 uppercase w-20 text-center tracking-tighter">
+                New e-PR</div>
+        </button>
+
+        <button onclick="showSection('dashboard')" class="flex flex-col items-center gap-1 group">
+            <div id="nav-draft-icon" class="p-2 rounded-xl transition-colors text-gray-400">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 11H5m14 0a2 2 0 012-2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                    </path>
+                </svg>
+            </div>
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Drafts</span>
+            <div id="draft-indicator" class="hidden absolute top-0 right-1 w-2 h-2 bg-blue-500 rounded-full"></div>
+        </button>
+    </nav>
+
+    <!-- UI Interaction Script -->
+    <script>
+        const THRESHOLD = 500;
+        let selectedType = '';
+
+        function showSection(id) {
+            document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+
+            // Nav Styling
+            const isDash = id === 'dashboard';
+            document.getElementById('nav-dash-icon').className = isDash ? 'p-2 rounded-xl bg-blue-50 text-blue-600' : 'p-2 rounded-xl text-gray-400';
+            document.getElementById('nav-create-icon').className = id === 'create' ? 'bg-blue-600 text-white p-5 rounded-3xl shadow-2xl shadow-blue-400 border-4 border-white transform transition-all' : 'bg-gray-400 text-white p-5 rounded-3xl shadow-none border-4 border-white transform transition-all';
+        }
+
+        function selectType(btn, type) {
+            selectedType = type;
+            document.querySelectorAll('.type-btn').forEach(b => {
+                b.classList.remove('border-blue-600', 'bg-blue-50', 'shadow-md', 'ring-2', 'ring-blue-100');
+                b.classList.add('border-gray-100', 'bg-white');
+            });
+            btn.classList.add('border-blue-600', 'bg-blue-50', 'shadow-md', 'ring-2', 'ring-blue-100');
+            btn.classList.remove('border-gray-100', 'bg-white');
+
+            // Show conditional fields
+            document.querySelectorAll('[id^="fields-"]').forEach(f => f.classList.add('hidden'));
+            const target = document.getElementById(`fields-${type}`);
+            if (target) target.classList.remove('hidden');
+        }
+
+        function handleCostChange() {
+            const cost = parseFloat(document.getElementById('costInput').value) || 0;
+            const indicator = document.getElementById('tierIndicator');
+            const icon = document.getElementById('tierIcon');
+            const text = document.getElementById('tierText');
+            const warning = document.getElementById('quotation-warning');
+
+            if (cost === 0) {
+                indicator.className = "mt-2 p-3 rounded-lg border bg-gray-50 border-gray-200 flex items-center gap-3";
+                icon.className = "w-6 h-6 shrink-0 flex items-center justify-center rounded-full bg-gray-400 text-white text-[10px] font-bold";
+                icon.innerText = "?";
+                text.innerText = "Enter an amount to see the approval routing (Threshold: $500.00).";
+                text.className = "text-[11px] leading-tight font-semibold italic text-gray-500";
+                warning.classList.add('hidden');
+                return;
+            }
+
+            if (cost <= THRESHOLD) {
+                indicator.className = "mt-2 p-3 rounded-lg border bg-green-50 border-green-200 flex items-center gap-3 shadow-inner";
+                icon.className = "w-6 h-6 shrink-0 flex items-center justify-center rounded-full bg-green-500 text-white text-[10px] font-bold";
+                icon.innerText = "✓";
+                text.innerText = "Self-approve — will be approved instantly on submission.";
+                text.className = "text-[11px] leading-tight font-bold text-green-700 uppercase";
+                warning.classList.add('hidden');
+            } else {
+                indicator.className = "mt-2 p-3 rounded-lg border bg-yellow-50 border-yellow-200 flex items-center gap-3 shadow-inner";
+                icon.className = "w-6 h-6 shrink-0 flex items-center justify-center rounded-full bg-yellow-500 text-white text-[10px] font-bold";
+                icon.innerText = "⏳";
+                text.innerText = "Requires OM approval — will be sent to OM.";
+                text.className = "text-[11px] leading-tight font-bold text-yellow-800 uppercase";
+                warning.classList.remove('hidden');
+            }
+        }
+
+        function handlePhotoCapture() {
+            // Simulated photo capture with readability prompt (PHOTO-05)
+            if (confirm("Capture photo now?")) {
+                setTimeout(() => {
+                    alert("PHOTO-05: Is the quotation number and amount clearly visible? Please confirm before proceeding.");
+                }, 500);
+            }
+        }
+
+        function submitReview() {
+            const cost = document.getElementById('costInput').value;
+            if (!cost || !selectedType) {
+                alert("Please select a maintenance type and enter an estimated cost.");
+                return;
+            }
+            document.getElementById('reviewCost').innerText = `$${parseFloat(cost).toFixed(2)}`;
+            document.getElementById('reviewApproval').innerText = cost > THRESHOLD ? "OM Approval Required (Tier 2)" : "Self-Approve (Tier 1)";
+            document.getElementById('reviewApproval').className = cost > THRESHOLD ? "text-sm font-bold text-yellow-600" : "text-sm font-bold text-green-600";
+            showSection('review');
+        }
+
+        function confirmSubmit() {
+            alert("e-PR EPR-2026-XXXX submitted successfully! Notification sent.");
+            showSection('dashboard');
+        }
+
+        // Auto-save Logic (DRAFT-01)
+        setInterval(() => {
+            if (!document.getElementById('create').classList.contains('hidden')) {
+                const indicator = document.getElementById('draft-indicator');
+                indicator.classList.remove('hidden');
+                console.log("Auto-saved draft at " + new Date().toLocaleTimeString());
+                setTimeout(() => indicator.classList.add('hidden'), 2000);
+            }
+        }, 30000); // 30 seconds
+    </script>
+</body>
+
+</html>
