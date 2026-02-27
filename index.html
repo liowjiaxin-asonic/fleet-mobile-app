@@ -47,103 +47,149 @@
 
 <body class="bg-gray-50 flex flex-col h-screen overflow-hidden">
 
-    <!-- App Header -->
-    <header class="bg-blue-900 text-white px-4 pt-10 pb-4 shadow-md shrink-0">
+    <!-- App Header (Hidden during Login) -->
+    <header id="app-header" class="hidden bg-blue-900 text-white px-4 pt-10 pb-4 shadow-md shrink-0">
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-xl font-bold tracking-tight">A-Sonic Logistics</h1>
-                <p class="text-xs text-blue-200">Fleet Manager Mobile v1.1</p>
+                <div class="flex items-center gap-2">
+                    <p id="user-role-badge"
+                        class="text-[9px] bg-blue-700 px-2 py-0.5 rounded-full font-bold uppercase border border-blue-500">
+                        FM</p>
+                    <p class="text-xs text-blue-200">Mobile v1.1</p>
+                </div>
             </div>
-            <div class="flex gap-4">
-                <button class="relative" onclick="showSection('dashboard')">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
-                        </path>
-                    </svg>
-                    <span
-                        class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold border-2 border-blue-900">1</span>
-                </button>
+            <div class="flex gap-4 items-center">
+                <button onclick="logout()"
+                    class="text-[10px] font-bold uppercase tracking-widest text-blue-300 border border-blue-700 px-2 py-1 rounded-lg">Logout</button>
             </div>
         </div>
     </header>
 
     <!-- Main Scrollable Content -->
-    <main id="main-content" class="flex-grow overflow-y-auto pb-32">
+    <main id="main-content" class="flex-grow overflow-y-auto">
+
+        <!-- LOGIN SECTION (Premium Design) -->
+        <section id="login"
+            class="h-full flex flex-col items-center justify-center p-8 bg-gradient-to-br from-blue-900 via-blue-800 to-black overflow-hidden relative">
+            <!-- Animated Background Shapes -->
+            <div
+                class="absolute top-[-10%] right-[-10%] w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse">
+            </div>
+            <div
+                class="absolute bottom-[-10%] left-[-10%] w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse transition-all">
+            </div>
+
+            <div class="w-full max-w-sm space-y-8 z-10">
+                <div class="text-center space-y-2">
+                    <div
+                        class="inline-block p-4 bg-white/10 rounded-3xl backdrop-blur-xl border border-white/20 shadow-2xl mb-4">
+                        <svg class="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl font-black text-white tracking-tighter">A-SONIC FLEET</h1>
+                    <p class="text-blue-200 text-sm font-medium tracking-wide">Enterprise Mobile e-PR Portal</p>
+                </div>
+
+                <div class="glass p-8 rounded-[2.5rem] space-y-6 shadow-3xl">
+                    <div class="space-y-4">
+                        <button onclick="login('FM')"
+                            class="w-full bg-white text-blue-900 p-5 rounded-2xl font-bold flex items-center justify-between group active:scale-95 transition-all">
+                            <span>Login as Fleet Manager</span>
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg>
+                        </button>
+                        <button onclick="login('OM')"
+                            class="w-full bg-blue-600/20 text-white border border-blue-500/30 p-5 rounded-2xl font-bold flex items-center justify-between group active:scale-95 transition-all backdrop-blur-md">
+                            <span>Login as Ops Manager</span>
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="text-[10px] text-center text-blue-300 font-bold uppercase tracking-widest">Biometric Auth
+                        Enabled</p>
+                </div>
+            </div>
+        </section>
 
         <!-- DASHBOARD SECTION -->
-        <section id="dashboard" class="p-4 space-y-4">
+        <section id="dashboard" class="hidden p-4 space-y-4 pb-32">
             <div class="flex items-center justify-between">
-                <h2 class="text-lg font-bold text-gray-800 uppercase tracking-tight">My e-PRs</h2>
+                <h2 id="dashboard-title" class="text-lg font-bold text-gray-800 uppercase tracking-tight">My e-PRs</h2>
                 <div class="flex gap-2">
-                    <button
-                        class="bg-white border rounded-lg px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm">All
-                        Types</button>
                     <button
                         class="bg-white border rounded-lg px-3 py-1 text-xs font-semibold text-gray-600 shadow-sm">Filter</button>
                 </div>
             </div>
 
-            <!-- Pending Approval (LIST-01) -->
-            <div class="bg-white border-l-4 border-l-yellow-500 rounded-xl shadow-sm p-4 space-y-2">
-                <div class="flex justify-between items-start">
-                    <span
-                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0045</span>
-                    <span
-                        class="bg-yellow-100 text-yellow-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Pending
-                        OM Approval</span>
-                </div>
-                <h3 class="font-bold text-gray-900">SJB 1234 A — Hino 700</h3>
-                <p class="text-xs text-gray-500">Corrective (Accident) • Est: $2,800.00</p>
-                <div class="pt-2 flex justify-end">
-                    <button class="text-blue-600 text-xs font-bold uppercase tracking-wider">Recall Draft
-                        &rarr;</button>
-                </div>
-            </div>
+            <div id="epr-list" class="space-y-4">
+                <!-- FM VIEW -->
+                <div class="role-fm space-y-4">
+                    <!-- Urgent Notification Mock -->
+                    <div
+                        class="bg-white border-l-4 border-l-red-500 rounded-xl shadow-sm p-4 space-y-2 ring-1 ring-red-100">
+                        <div class="flex justify-between items-start">
+                            <span
+                                class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0042</span>
+                            <div class="flex items-center gap-1">
+                                <span class="bg-red-500 text-white text-[8px] px-1 rounded animate-pulse">URGENT</span>
+                                <span
+                                    class="bg-red-100 text-red-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Pending
+                                    OM</span>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-gray-900">SHA 8821 X — Scania P360</h3>
+                        <p class="text-xs text-gray-500">Corrective (Urgent) • $2,450.00</p>
+                    </div>
 
-            <!-- Urgent Notification Mock (LIST-01) -->
-            <div class="bg-white border-l-4 border-l-red-500 rounded-xl shadow-sm p-4 space-y-2 ring-1 ring-red-100">
-                <div class="flex justify-between items-start">
-                    <span
-                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0042</span>
-                    <div class="flex items-center gap-1">
-                        <span class="bg-red-500 text-white text-[8px] px-1 rounded animate-pulse">URGENT</span>
-                        <span
-                            class="bg-red-100 text-red-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Pending
-                            OM Approval</span>
+                    <div class="bg-white border rounded-xl shadow-sm p-4 space-y-2">
+                        <div class="flex justify-between items-start">
+                            <span
+                                class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0038</span>
+                            <span
+                                class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Approved
+                                (Self)</span>
+                        </div>
+                        <h3 class="font-bold text-gray-900">EQ-122 — Forklift L2</h3>
+                        <p class="text-xs text-gray-500">PM • $450.00</p>
                     </div>
                 </div>
-                <h3 class="font-bold text-gray-900">SHA 8821 X — Scania P360</h3>
-                <p class="text-xs text-gray-500">Corrective (Urgent Repair) • Est: $2,450.00</p>
-                <div class="pt-2 flex justify-between items-center">
-                    <span class="text-[10px] text-red-500 font-bold">Priority Push Sent</span>
-                    <button class="text-blue-600 text-xs font-bold uppercase tracking-wider">Track Status
-                        &rarr;</button>
-                </div>
-            </div>
 
-            <!-- Standard List Items -->
-            <div class="bg-white border rounded-xl shadow-sm p-4 space-y-2">
-                <div class="flex justify-between items-start">
-                    <span
-                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0038</span>
-                    <span
-                        class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Approved
-                        (Self)</span>
-                </div>
-                <h3 class="font-bold text-gray-900">EQ-122 — Forklift L2</h3>
-                <p class="text-xs text-gray-500">Preventive Maintenance • Est: $450.00</p>
-            </div>
+                <!-- OM VIEW -->
+                <div class="role-om hidden space-y-4">
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+                        <p class="text-blue-800 text-xs font-bold uppercase mb-1">Approval Queue</p>
+                        <p class="text-blue-600 text-[10px]">You have 2 pending authorizations.</p>
+                    </div>
 
-            <div class="bg-white border rounded-xl shadow-sm p-4 space-y-2">
-                <div class="flex justify-between items-start">
-                    <span
-                        class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">EPR-2026-0031</span>
-                    <span
-                        class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Draft</span>
+                    <div class="bg-white border-l-4 border-l-yellow-500 rounded-xl shadow-sm p-4 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <span
+                                class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">EPR-2026-0045</span>
+                            <span
+                                class="bg-yellow-100 text-yellow-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase italic">Action
+                                Required</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">SJB 1234 A — Hino 700</h3>
+                            <p class="text-xs text-gray-500">Accident Repair • Est: $2,800.00</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="alert('EPR Approved')"
+                                class="flex-grow bg-green-600 text-white text-[10px] font-bold py-2 rounded-lg">APPROVE</button>
+                            <button onclick="alert('Reject with Comment')"
+                                class="flex-grow bg-white border border-gray-200 text-gray-600 text-[10px] font-bold py-2 rounded-lg">REJECT</button>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="font-bold text-gray-900">SJB 4412 M — Hino 700</h3>
-                <p class="text-xs text-gray-500 italic">General Breakdown • Last saved 2m ago</p>
             </div>
         </section>
 
@@ -366,38 +412,39 @@
 
     </main>
 
-    <!-- Bottom Navigation (60% Reach Rule) -->
-    <nav
-        class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-3 pb-8 flex justify-between items-center z-50 shadow-[0_-5px_15px_-3px_rgba(0,0,0,0.05)]">
+    <!-- Bottom Navigation -->
+    <nav id="app-nav"
+        class="hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-6 py-3 pb-8 flex justify-between items-center z-50 shadow-[0_-5px_15px_-3px_rgba(0,0,0,0.05)]">
         <button onclick="showSection('dashboard')" class="flex flex-col items-center gap-1 group">
             <div id="nav-dash-icon" class="p-2 rounded-xl transition-colors bg-blue-50 text-blue-600">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <svg id="icon-dash" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path
                         d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
                     </path>
                 </svg>
             </div>
-            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-tighter">Dashboard</span>
+            <span id="nav-dash-text" class="text-[10px] font-bold text-blue-600 uppercase tracking-tighter">My
+                e-PRs</span>
         </button>
 
-        <!-- Main FAB -->
+        <!-- Main FAB (For both Roles) -->
         <button onclick="showSection('create')" class="relative -top-10 group">
             <div id="nav-create-icon"
-                class="bg-blue-600 text-white p-5 rounded-3xl shadow-2xl shadow-blue-400 border-4 border-white transition-all transform active:scale-90 active:rotate-45">
+                class="bg-blue-600 text-white p-5 rounded-3xl shadow-2xl shadow-blue-400 border-4 border-white transition-all transform active:scale-90">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
             </div>
             <div
                 class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-blue-600 uppercase w-20 text-center tracking-tighter">
-                New e-PR</div>
+                Create</div>
         </button>
 
         <button onclick="showSection('dashboard')" class="flex flex-col items-center gap-1 group">
             <div id="nav-draft-icon" class="p-2 rounded-xl transition-colors text-gray-400">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 11H5m14 0a2 2 0 012-2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
                     </path>
                 </svg>
             </div>
@@ -410,8 +457,39 @@
     <script>
         const THRESHOLD = 500;
         let selectedType = '';
+        let currentUser = null;
+
+        function login(role) {
+            currentUser = role;
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('app-header').classList.remove('hidden');
+            document.getElementById('app-nav').classList.remove('hidden');
+
+            // Setup Role UI
+            document.getElementById('user-role-badge').innerText = role;
+            const isOM = role === 'OM';
+
+            document.getElementById('dashboard-title').innerText = isOM ? 'Approval Queue' : 'My e-PRs';
+            document.getElementById('nav-dash-text').innerText = isOM ? 'Queue' : 'My e-PRs';
+
+            // Show/Hide Role specific elements
+            document.querySelectorAll('.role-fm').forEach(el => isOM ? el.classList.add('hidden') : el.classList.remove('hidden'));
+            document.querySelectorAll('.role-om').forEach(el => isOM ? el.classList.remove('hidden') : el.classList.add('hidden'));
+
+            showSection('dashboard');
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('login').classList.remove('hidden');
+            document.getElementById('app-header').classList.add('hidden');
+            document.getElementById('app-nav').classList.add('hidden');
+            document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('login').classList.remove('hidden');
+        }
 
         function showSection(id) {
+            if (!currentUser && id !== 'login') return logout(); // Changed loginFlow() to logout() for clarity
             document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
             document.getElementById(id).classList.remove('hidden');
 
@@ -492,19 +570,29 @@
         }
 
         function confirmSubmit() {
-            alert("e-PR EPR-2026-XXXX submitted successfully! Notification sent.");
+            const cost = parseFloat(document.getElementById('costInput').value);
+            if (cost <= THRESHOLD) {
+                alert("e-PR EPR-2026-XXXX APPROVED! You may instruct the workshop.");
+            } else {
+                alert("e-PR EPR-2026-XXXX submitted successfully! Pending OM Approval.");
+            }
             showSection('dashboard');
         }
 
         // Auto-save Logic (DRAFT-01)
         setInterval(() => {
-            if (!document.getElementById('create').classList.contains('hidden')) {
+            if (currentUser && !document.getElementById('create').classList.contains('hidden')) {
                 const indicator = document.getElementById('draft-indicator');
                 indicator.classList.remove('hidden');
                 console.log("Auto-saved draft at " + new Date().toLocaleTimeString());
                 setTimeout(() => indicator.classList.add('hidden'), 2000);
             }
         }, 30000); // 30 seconds
+
+        // Initialize with Login
+        window.onload = () => {
+            logout();
+        };
     </script>
 </body>
 
